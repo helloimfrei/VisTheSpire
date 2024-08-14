@@ -1,11 +1,12 @@
 spireUI <- function(id) {
+  # plan: tabs for 
   ns <- NS(id)
   tagList(
     sidebarPanel(
-      shinyDirButton(ns('dir_upload'),'Select Save File Directory',title = 'test')
+      fileInput(ns('zip_upload'),'Upload your zipped run folder here!')
     ),
     mainPanel(
-      
+      plotlyOutput(ns('death_freq'))
     )
 
     
