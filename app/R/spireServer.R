@@ -12,17 +12,30 @@ spireServer <- function(id){
   output$death_freq <- renderPlotly({
     req(rv$deaths)
     req(input$selected_chars)
-    fig_list <- list()
-    for (character in input$selected_chars) {
-      filtered_deaths <- rv$deaths |> 
-        filter(character_chosen == character) |>
-        arrange(desc(freq)) |>
-        head(n = input$top_n)
-      fig <- plot_ly(data = filtered_deaths, labels = ~killed_by, values = ~freq, type = 'pie', name = character) 
-      fig_list <- append(fig_list, list(fig))
-    }
-    subplots <- subplot(fig_list)
-    subplots
+    
+    rv$filtered_deaths <- rv$deaths |> 
+    filter(character_chosen %in% input$selected_chars) 
+
+
+  char_colors <- c('THE_SILENT' = '#2d9958', 'WATCHER' = '#9b2dca', 'IRONCLAD' = '#c52323', 'DEFECT' = '#57a5d6')
+
+    hierarchy_table <- VisTheSpire$make_hierarchy_table(rv$filtered_deaths,"character_chosen","killed_by","freq") |>
+    filter(size > input$top_n | size == 0) |>
+    mutate(color = char_colors[child])
+
+
+
+    fig <- plot_ly(data = hierarchy_table, 
+                  labels = ~child, 
+                  parents = ~parent,
+                  values = ~size, 
+                  type = 'treemap', 
+                  textinfo = "text+size",
+                  text = ~pretty_labels,
+                  marker = list(colors = ~color)
+    )
+    
+    fig
   })
 
 

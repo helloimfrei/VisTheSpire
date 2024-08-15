@@ -1,4 +1,9 @@
 spireUI <- function(id) {
+  #TODO: basic stats page (win rate, total deaths, total runs, etc)
+# most successful items
+# most successful cards
+# clickable sectors in treemap, pull up run details (common cards for the runs where you died to certain enemy, etc.)
+
   ns <- NS(id)
   tagList(
     sidebarPanel(
@@ -13,15 +18,19 @@ spireUI <- function(id) {
       ),
       selected = NULL
       ),
-      sliderInput(ns('top_n'),'Top N Death Causes',min = 1,max = 10,value = 5)
+      width = 2
     ),
     mainPanel(
       navset_bar(
         title = 'Metrics',
-        nav_panel('Deaths',plotlyOutput(ns('death_freq'))),
-        nav_panel('Items',plotlyOutput(ns('items')))
-      )
-
+        nav_panel('Run Stats'),
+        nav_panel('Deaths',
+        sliderInput(ns('top_n'),'Cutoff of Frequency of Deaths Caused',min = 0,max = 1,value = 0),
+        plotlyOutput(ns('death_freq'))),
+        nav_panel('Items',plotlyOutput(ns('items'))),
+        nav_panel('Cards')
+      ),
+      width = 10
     )
 
     

@@ -45,6 +45,16 @@ class VisTheSpire:
             runs = pd.DataFrame(VisTheSpire.load_runs(character,dir_path))
             out = pd.concat([out,runs]).reset_index(drop=True)
         return out.reset_index(drop=True)
+    def make_hierarchy_table(df,parent_col,child_col,size_col) -> pd.DataFrame:
+        #take a table with some parent value(character chosen), some child value (killed by), and some size/count value (frequency of deaths) and make it into a hierarchy table for treemaps
+        unique_parents = df[parent_col].unique()
+        out = df[[parent_col,child_col,size_col]].rename(columns={parent_col:'parent',child_col:'child',size_col:'size'})
+        out['pretty_labels'] = out.child
+        out.child = out.child + ' ' + out.parent
+
+        parent_rows = pd.DataFrame({'parent':0,'child':unique_parents,'size':0})
+        out = pd.concat([parent_rows,out]).reset_index(drop=True)
+        return out
     
     def __init__(self,zip_path):
         self.temp_dir = VisTheSpire.unzip_to_tempdir(zip_path)
@@ -56,4 +66,3 @@ class VisTheSpire:
         counts['freq'] = (counts['count'] / total_counts)
         return counts
 
-    
