@@ -42,13 +42,13 @@ class VisTheSpire:
     def compile_char_data(dir_path) -> pd.DataFrame:
         out = pd.DataFrame()
         for character in ['THE_SILENT','WATCHER','IRONCLAD','DEFECT']:
-            runs = pd.DataFrame(load_runs(character,dir_path))
+            runs = pd.DataFrame(VisTheSpire.load_runs(character,dir_path))
             out = pd.concat([out,runs]).reset_index(drop=True)
         return out.reset_index(drop=True)
     
     def __init__(self,zip_path):
-        self.temp_dir = unzip_to_tempdir(zip_path)
-        self.runs = compile_char_data(self.temp_dir)
+        self.temp_dir = VisTheSpire.unzip_to_tempdir(zip_path)
+        self.runs = VisTheSpire.compile_char_data(self.temp_dir)
 
     def death_freq(self) -> pd.DataFrame:
         counts = self.runs.groupby(['character_chosen','killed_by']).size().reset_index(name='count')
