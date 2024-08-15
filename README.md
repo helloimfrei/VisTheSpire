@@ -4,4 +4,6 @@ Upload a zipped 'runs' folder of your save data, and the app handles the rest. P
 
 Get started:
 1. Navigate to your game directory (open Steam > right click Slay The Spire in your library > Manage > Browse local files)
-2. Make a copy of your runs folder, and compress it into a zip. Don't rename it! (Mac: right click a <ins>copy</ins> of the folder and select 'Compress' on Mac, or Windows: right click > 7Zip > Add to runs.zip)
+2. Compress the runs folder into a zip. Don't rename it! (Mac: right click the runs folder and select 'Compress' on Mac, or Windows: right click > 7Zip > Add to runs.zip)
+3. Upload your .zip to the app, and you're good to go!
+4. Prepare to be deeply humbled upon seeing your win rate :( 
