@@ -1,13 +1,14 @@
 
-ui <- fluidPage(titlePanel('VisTheSpire V1.0'),
-  spireUI('spire'),
+ui <- fluidPage(
   theme = bs_theme(
-    bg = "#231732",
-    fg = "#229dbc",
-    primary = "#E69F00",
-    secondary = "#d7d7d7",
-    success = "#E69F00",
+    bg = "#233253",
+    fg = "#fcdc0f",
+    primary = "#a62121",
+    secondary = "#fcdc0f",
+    success = "#a62121",
     base_font = font_google("Kreon"),
     code_font = font_google("Kreon")
-  )
+  ),
+  titlePanel('VisTheSpire V1.0'),
+  spireUI('spire')
 )

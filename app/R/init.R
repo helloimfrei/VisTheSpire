@@ -13,5 +13,9 @@ library(showtext)
 library(reticulate)
 library(reactable)
 library(bslib)
+
+
 use_condaenv(r'{C:\Users\Christian\anaconda3\envs\spire}')
 source_python('spire.py')
+
+

@@ -23,11 +23,13 @@ spireUI <- function(id) {
     mainPanel(
       navset_bar(
         title = 'Metrics',
-        nav_panel('Run Stats'),
+        nav_panel('Run Stats',
+        reactableOutput(ns('run_stats')),
+        ),
         nav_panel('Deaths',
-        sliderInput(ns('top_n'),'Cutoff of Frequency of Deaths Caused',min = 0,max = 1,value = 0),
+        sliderInput(ns('top_n'),'Minimum Frequency of Deaths Caused',min = 0,max = 1,value = 0),
         plotlyOutput(ns('death_freq'))),
-        nav_panel('Items',plotlyOutput(ns('items'))),
+        nav_panel('Relics'),
         nav_panel('Cards')
       ),
       width = 10
