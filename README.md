@@ -1,9 +1,9 @@
 # VisTheSpire
 Visualize run data from Slay The Spire!
 
-[Give it a try here!](https://helloimfrei.shinyapps.io/VisTheSpire/)
+Very much in progress, with barebones functionality currently: [Give it a try here!](https://helloimfrei.shinyapps.io/VisTheSpire/)
 
-Upload a zipped 'runs' folder of your save data, and the app handles the rest.
+Upload a zipped 'runs' folder of your save data, and the app handles the rest. 
 
 Planned features include a variety of useful visualiztions to analyze why Gremlin Nob turns you into a fine paste every run.
 
