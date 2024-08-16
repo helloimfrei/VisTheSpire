@@ -35,12 +35,6 @@ spireServer <- function(id){
         )
     })
 
-
-
-
-
-
-
     output$death_freq <- renderPlotly({
       req(rv$deaths)
       char_colors <- c(
