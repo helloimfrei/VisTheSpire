@@ -5,6 +5,11 @@ import zipfile
 import tempfile
 
 class VisTheSpire:
+    """
+    TO DO: convert everything to instance methods, i dont think keeping them as static methods makes a lot of sense anymore
+    """
+    pretty_names = {'THE_SILENT':'The Silent','WATCHER':'Watcher','IRONCLAD':'Ironclad','DEFECT':'Defect'}
+    @staticmethod
     def unzip_to_tempdir(zip_path):
         """
         take path to zipped 'runs' folder containing subfolders for each character's run data, put contents into a temporary directory to use in character data compilation
@@ -18,6 +23,7 @@ class VisTheSpire:
             print(os.listdir(temp_dir)[0])
             raise ValueError('Did you rename your run folder/zip file? Make sure your uncompressed folder is called "runs"')
         return f'{temp_dir}/runs' 
+    @staticmethod
     def load_runs(character:str,dir_path:str) -> list:
         """
         Generate list of dictionaries containing all run data for a character.
@@ -39,12 +45,15 @@ class VisTheSpire:
         for run in run_list:
             runs.append(json.load(open(os.path.join(char_run_dir,run))))
         return runs
+    @staticmethod
     def compile_char_data(dir_path) -> pd.DataFrame:
         out = pd.DataFrame()
         for character in ['THE_SILENT','WATCHER','IRONCLAD','DEFECT']:
             runs = pd.DataFrame(VisTheSpire.load_runs(character,dir_path))
             out = pd.concat([out,runs]).reset_index(drop=True)
         return out.reset_index(drop=True)
+    
+    @staticmethod
     def make_hierarchy_table(df,parent_col,child_col,size_col) -> pd.DataFrame:
         #take a table with some parent value(character chosen), some child value (killed by), and some size/count value (frequency of deaths) and make it into a hierarchy table for treemaps
         unique_parents = df[parent_col].unique()
@@ -66,3 +75,12 @@ class VisTheSpire:
         counts['freq'] = (counts['count'] / total_counts)
         return counts
 
+    def stat_summary(self,character):
+        #the dataframe format isnt really meant to be useful, the column naming is just for easy shiny displaying
+        #total wins, total losses, win rate per character
+        filtered = self.runs[self.runs.character_chosen == character]
+        total_runs = len(filtered)
+        wins = len(filtered[filtered.victory == True])
+        losses = len(filtered[filtered.victory == False])
+        win_rate = wins / total_runs
+        return pd.DataFrame({self.pretty_names.get(character,'unknown character!'):['total_runs','wins','losses','win_rate'],' ':[total_runs,wins,losses,win_rate]})

@@ -16,6 +16,8 @@ library(bslib)
 
 
 use_condaenv(r'{C:\Users\Christian\anaconda3\envs\spire}')
+#py_install(c('pandas'))
+
 source_python('spire.py')
 
 

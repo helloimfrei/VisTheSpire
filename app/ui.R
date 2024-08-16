@@ -1,6 +1,7 @@
 
 ui <- fluidPage(
   theme = bs_theme(
+    version = 5,
     bg = "#233253",
     fg = "#fcdc0f",
     primary = "#a62121",

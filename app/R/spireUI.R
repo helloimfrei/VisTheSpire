@@ -1,39 +1,40 @@
 spireUI <- function(id) {
   #TODO: basic stats page (win rate, total deaths, total runs, etc)
+  #win rate over time
 # most successful items
 # most successful cards
 # clickable sectors in treemap, pull up run details (common cards for the runs where you died to certain enemy, etc.)
 
   ns <- NS(id)
   tagList(
-    sidebarPanel(
+    sidebarLayout(
+      sidebarPanel(
       fileInput(ns('zip_upload'),'Upload your zipped run folder here!'),
-      checkboxGroupInput(ns('selected_chars'), 
-      label = 'Select characters to display',
-      choices = list(
-        'The Silent'='THE_SILENT',
-        'Watcher'='WATCHER',
-        'Ironclad'='IRONCLAD',
-        'Defect'='DEFECT'
-      ),
-      selected = NULL
-      ),
+      downloadButton(ns('download_data'),'Download All Run Data As CSV'),
       width = 2
     ),
-    mainPanel(
-      navset_bar(
-        title = 'Metrics',
-        nav_panel('Run Stats',
-        reactableOutput(ns('run_stats')),
+      mainPanel(
+        navset_bar(
+          title = 'Metrics',
+          nav_panel('Run Stats',
+          fluidRow(
+            column(3,reactableOutput(ns('run_stats_silent'))),
+            column(3,reactableOutput(ns('run_stats_watcher'))),
+            column(3,reactableOutput(ns('run_stats_ironclad'))),
+            column(3,reactableOutput(ns('run_stats_defect')))
+          )
+          ),
+          nav_panel('Deaths',
+          sliderInput(ns('top_n'),'Minimum Frequency of Deaths Caused',min = 0,max = 1,value = 0),
+          plotlyOutput(ns('death_freq'))),
+          nav_panel('Relics'),
+          nav_panel('Cards'),
+          nav_panel('Improvement'),
         ),
-        nav_panel('Deaths',
-        sliderInput(ns('top_n'),'Minimum Frequency of Deaths Caused',min = 0,max = 1,value = 0),
-        plotlyOutput(ns('death_freq'))),
-        nav_panel('Relics'),
-        nav_panel('Cards')
-      ),
-      width = 10
+        width = 10
+      )
     )
+    
 
     
     
