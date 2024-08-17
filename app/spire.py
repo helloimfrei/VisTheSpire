@@ -21,7 +21,7 @@ class VisTheSpire:
         unique_parents = df[parent_col].unique()
         out = df[[parent_col,child_col,size_col]].rename(columns={parent_col:'parent',child_col:'child',size_col:'size'})
         out['pretty_labels'] = out.child
-        out.child = out.child + ' ' + out.parent
+        out.child = out.child + '_' + out.parent
 
         parent_rows = pd.DataFrame({'parent':0,'child':unique_parents,'size':0})
         out = pd.concat([parent_rows,out]).reset_index(drop=True)
@@ -31,6 +31,30 @@ class VisTheSpire:
         self.zip_path = zip_path
         self.temp_dir = self.unzip_to_tempdir()
         self.runs = self.compile_char_data()
+        self.filtered_runs = self.runs
+
+    def filter_master_runset(self,changes:dict) -> pd.DataFrame:
+        """
+        DOES NOT WORK RIGHT NOW. NEED TO REVISIT AT A LATER TIME
+        Filter the master runs dataframe and update the filtered_runs instance attribute.
+        Args:
+            changes: dictionary where each key is a column names and each value is a list of column values to filter on.
+        Returns:
+            None
+        """
+        filtered = self.runs.copy()
+        for column,values in changes.items():
+            try:
+                #required for wacky R feature of converting lists of length 1 to their respective datatypes. annoying!
+                if type(values) == str: 
+                    changes = list(changes)
+                if len(changes) == 0 or changes is None: 
+                    print(f'No filtering completed. Value for {column} must be a string or list of values')
+                    break
+                filtered = filtered[filtered[column].isin(values)]
+            except KeyError:
+                raise KeyError(f'Could not find column {column} in dataframe')
+        self.filtered_runs = filtered
 
     def unzip_to_tempdir(self) -> str:
         """
@@ -65,7 +89,7 @@ class VisTheSpire:
             if not run.endswith('json'):
                 file_name = os.path.join(char_run_dir,run).split('.')[0]
                 os.rename(os.path.join(char_run_dir,run),f'{file_name}.json')
-                print('changed file type to json from',run.split('.')[-1])
+                #print('changed file type to json from',run.split('.')[-1])
         run_list = os.listdir(char_run_dir)
         runs = []
         for run in run_list:
@@ -110,6 +134,8 @@ class VisTheSpire:
         """
         filtered = self.runs[self.runs.character_chosen == character]
         total_runs = len(filtered)
+        if total_runs == 0:
+            return pd.DataFrame({self.pretty_names.get(character,'unknown character!'):['total_runs','wins','losses','win_rate'],' ':['No data found','No data found','No data found','No data found']})
         wins = len(filtered[filtered.victory == True])
         losses = len(filtered[filtered.victory == False])
         win_rate = wins / total_runs

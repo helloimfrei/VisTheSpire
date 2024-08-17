@@ -26,7 +26,10 @@ spireUI <- function(id) {
           ),
           nav_panel('Deaths',
           sliderInput(ns('top_n'),'Minimum Frequency of Deaths Caused',min = 0,max = 1,value = 0),
-          plotlyOutput(ns('death_freq'))),
+          plotlyOutput(ns('death_freq')),
+          textOutput(ns('clicked_sector')),
+          plotlyOutput(ns('death_zoom'))
+          ),
           nav_panel('Relics'),
           nav_panel('Cards'),
           nav_panel('Improvement'),
