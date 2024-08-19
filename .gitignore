@@ -1,0 +1,7 @@
+*.lintr
+*.ipynb
+.Rhistory
+.Rprofile
+rsconnect
+.RData
+.vscode
