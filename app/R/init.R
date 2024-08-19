@@ -15,9 +15,11 @@ library(reactable)
 library(bslib)
 
 
-use_condaenv(r'{C:\Users\Christian\anaconda3\envs\spire}')
+use_condaenv('spire')
 #py_install(c('pandas'))
 
 source_python('spire.py')
+
+
 
 

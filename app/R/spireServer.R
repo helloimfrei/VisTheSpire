@@ -6,6 +6,9 @@ spireServer <- function(id){
       rv$vts <- VisTheSpire(input$zip_upload$datapath)
       rv$deaths <- rv$vts$death_freq()
     })
+
+
+#Summary Stats
     output$run_stats_silent <- renderReactable({
       req(rv$vts)
       reactable(
@@ -35,7 +38,9 @@ spireServer <- function(id){
         )
     })
 
-#add click event functionality for treemap sectors, pull up most and least common relics and cards for those runs
+
+#Deaths
+    #add click event functionality for treemap sectors, pull up most and least common relics and cards for those runs
     output$death_freq <- renderPlotly({
       req(rv$deaths)
       char_colors <- c(
@@ -91,7 +96,11 @@ spireServer <- function(id){
       layout(paper_bgcolor = '#233253')
       fig
     })
+#Relics
 
+#Cards
+
+#Improvement
   
 
 
