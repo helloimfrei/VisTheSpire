@@ -3,6 +3,7 @@ import json
 import os
 import zipfile
 import tempfile
+import itertools
 
 class VisTheSpire:
     pretty_names = {'THE_SILENT':'The Silent','WATCHER':'Watcher','IRONCLAD':'Ironclad','DEFECT':'Defect'}
@@ -21,7 +22,7 @@ class VisTheSpire:
         unique_parents = df[parent_col].unique()
         out = df[[parent_col,child_col,size_col]].rename(columns={parent_col:'parent',child_col:'child',size_col:'size'})
         out['pretty_labels'] = out.child
-        out.child = out.child + '_' + out.parent
+        out.child = out.child + '+' + out.parent
 
         parent_rows = pd.DataFrame({'parent':0,'child':unique_parents,'size':0})
         out = pd.concat([parent_rows,out]).reset_index(drop=True)
@@ -130,7 +131,7 @@ class VisTheSpire:
         Args:
             character: one of the four following characters: THE_SILENT,WATCHER,IRONCLAD,DEFECT
         Returns:
-            Dataframe with character stats to be used as a Shiny table.
+            Dataframe with character stats to be used as a Shiny display table.
         """
         filtered = self.runs[self.runs.character_chosen == character]
         total_runs = len(filtered)
@@ -140,3 +141,19 @@ class VisTheSpire:
         losses = len(filtered[filtered.victory == False])
         win_rate = wins / total_runs
         return pd.DataFrame({self.pretty_names.get(character,'unknown character!'):['total_runs','wins','losses','win_rate'],' ':[total_runs,wins,losses,win_rate]})
+    
+    def items_at_event(self,click:str,item_type:str, event_type:str) -> pd.DataFrame:
+        """
+        Generate a dataframe containing the most common items for a specified event type, for a given character. Intended for use with Shiny click event.
+        Args:
+            click: Input from a user on a Shiny treemap representing the clicked child sector of a treemap (e.g. 'Slime Boss+THE_SILENT'). See make_heirarchy_table() for how the id of children are generated
+            item_type: Column in runs dataframe containing lists of items for a given run (row) (relics, master_deck, etc.)
+            event_type: Column in runs dataframe containing event type (e.g. 'killed_by','floor_reached,'ascencsion_level' etc.)
+        Returns:
+            Dataframe with columns for item_type and frequency at given event (size)
+        """
+        event_option,character = click.split('+')[0],click.split('+')[1]
+        nested_items = self.runs.query(f'{event_type} == "{event_option}" & character_chosen == "{character}"')[item_type].tolist()
+        all_items = list(itertools.chain(*nested_items))
+        freqs = pd.DataFrame({item_type:all_items}).groupby(item_type,as_index=False).size()
+        return freqs

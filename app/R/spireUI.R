@@ -1,8 +1,5 @@
 spireUI <- function(id) {
-  #TODO: basic stats page (win rate, total deaths, total runs, etc)
-  #win rate over time
-# most successful items
-# most successful cards
+  #TODO: ascension filtering
 # clickable sectors in treemap, pull up run details (common cards for the runs where you died to certain enemy, etc.)
 
   ns <- NS(id)

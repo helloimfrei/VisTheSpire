@@ -54,19 +54,27 @@ spireServer <- function(id){
       filter(size > input$top_n | size == 0) |>
       mutate(color = char_colors[child])
 
-      fig <- plot_ly(data = rv$hierarchy_table, 
-                    labels = ~child, 
-                    parents = ~parent,
-                    values = ~size, 
-                    type = 'treemap', 
-                    textinfo = "text+size",
-                    hoverinfo = "size",
-                    text = ~pretty_labels,
-                    marker = list(colors = ~color),
-                    source = "death_freq",
-                    customdata = ~child
+      fig <- plot_ly(
+        data = rv$hierarchy_table, 
+        labels = ~child, 
+        parents = ~parent,
+        values = ~size, 
+        type = 'treemap', 
+        textinfo = "text+size",
+        hoverinfo = "size",
+        text = ~pretty_labels,
+        textfont = list(color = "#fcdc0f"),
+        hoverlabel = list(bgcolor = "#fcdc0f"),
+        marker = list(
+          colors = ~color,
+          textfont = list(color = "#fcdc0f")),
+        source = "death_freq",
+        customdata = ~child
       ) |>
-      layout(paper_bgcolor = '#233253')
+        layout(
+          paper_bgcolor = '#233253',  
+          plot_bgcolor = '#233253'
+        )
       fig
     })
 
@@ -81,19 +89,39 @@ spireServer <- function(id){
     output$death_zoom <- renderPlotly({
       req(rv$clicked_sector)
       req(!(rv$clicked_sector %in% c("THE_SILENT","WATCHER","IRONCLAD","DEFECT")))
-      fig <- plot_ly(data = rv$hierarchy_table, 
-                    labels = ~child, 
-                    parents = ~parent,
-                    values = ~size, 
-                    type = 'treemap', 
-                    textinfo = "text+size",
-                    hoverinfo = "size",
-                    text = ~pretty_labels,
-                    marker = list(colors = ~color),
-                    source = "death_zoom",
-                    customdata = ~child
+      rv$clicked_freqs <- rv$vts$items_at_event(click = rv$clicked_sector,item_type ="relics",event_type = "killed_by")
+    
+
+      fig <- plot_ly(
+        data = rv$clicked_freqs, 
+        type = 'bar',
+        x = rv$clicked_freqs[,1],
+        y = ~size,
+        textfont = list(color = "#fcdc0f")
       ) |>
-      layout(paper_bgcolor = '#233253')
+        layout(
+          paper_bgcolor = '#233253',  
+          plot_bgcolor = '#233253',
+          font = list(color = '#fcdc0f'),  
+          title = list(
+            font = list(color = '#fcdc0f')  
+          ),
+          xaxis = list(
+            title = list(
+              font = list(color = '#fcdc0f') 
+            ),
+            tickfont = list(color = '#fcdc0f')  
+          ),
+          yaxis = list(
+            title = list(
+              font = list(color = '#fcdc0f')  
+            ),
+            tickfont = list(color = '#fcdc0f')  
+          ),
+          legend = list(
+            font = list(color = '#fcdc0f')  
+          )
+        )
       fig
     })
 #Relics
