@@ -15,8 +15,8 @@ library(reactable)
 library(bslib)
 
 
-use_condaenv('spire')
-#py_install(c('pandas'))
+#use_condaenv('spire')
+py_install(c('pandas'))
 
 source_python('spire.py')
 

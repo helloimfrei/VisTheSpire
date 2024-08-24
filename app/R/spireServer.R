@@ -40,14 +40,14 @@ spireServer <- function(id){
 
 
 #Deaths
+    char_colors <- c(
+      'THE_SILENT' = '#2d9958', 
+      'WATCHER' = '#9b2dca', 
+      'IRONCLAD' = '#c52323', 
+      'DEFECT' = '#57a5d6')
     #add click event functionality for treemap sectors, pull up most and least common relics and cards for those runs
     output$death_freq <- renderPlotly({
       req(rv$deaths)
-      char_colors <- c(
-        'THE_SILENT' = '#2d9958', 
-        'WATCHER' = '#9b2dca', 
-        'IRONCLAD' = '#c52323', 
-        'DEFECT' = '#57a5d6')
       rv$hierarchy_table <- VisTheSpire$make_hierarchy_table(
         rv$deaths,"character_chosen","killed_by","freq"
         ) |>
@@ -97,7 +97,8 @@ spireServer <- function(id){
         type = 'bar',
         x = rv$clicked_freqs[,1],
         y = ~size,
-        textfont = list(color = "#fcdc0f")
+        textfont = list(color = "#fcdc0f"),
+        marker = list(color = rep(char_colors[strsplit(rv$clicked_sector, '\\+')[[1]][2]], nrow(rv$clicked_freqs)))
       ) |>
         layout(
           paper_bgcolor = '#233253',  

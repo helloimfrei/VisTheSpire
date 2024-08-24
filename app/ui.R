@@ -10,6 +10,6 @@ ui <- fluidPage(
     base_font = font_google("Kreon"),
     code_font = font_google("Kreon")
   ),
-  titlePanel('VisTheSpire V1.0'),
+  titlePanel('VisTheSpire V0.5.0'),
   spireUI('spire')
 )
