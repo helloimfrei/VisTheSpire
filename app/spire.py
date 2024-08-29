@@ -46,7 +46,7 @@ class VisTheSpire:
         filtered = self.runs.copy()
         for column,values in changes.items():
             try:
-                #required for wacky R feature of converting lists of length 1 to their respective datatypes. annoying!
+                #required for wacky R feature of converting lists of length 1 to their respective datatypes. annoying for python integration!
                 if type(values) == str: 
                     changes = list(changes)
                 if len(changes) == 0 or changes is None: 

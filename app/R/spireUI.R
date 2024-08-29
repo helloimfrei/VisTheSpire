@@ -36,7 +36,10 @@ spireUI <- function(id) {
           #avg floor reached over time
           #how to account for ascension?
           nav_panel('Improvement'),
-          nav_panel('Community Stats')
+          nav_panel(
+            title = 'Community Stats',
+            HTML('Potential Planned Feature!')
+            )
         ),
         width = 10
       )
