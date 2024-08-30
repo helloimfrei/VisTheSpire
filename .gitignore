@@ -6,3 +6,4 @@ rsconnect
 .RData
 .vscode
 Dockerfile
+app_cache

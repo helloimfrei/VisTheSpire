@@ -8,7 +8,7 @@ spireUI <- function(id) {
       sidebarPanel(
       fileInput(ns('zip_upload'),'Upload your zipped run folder here!'),
       #opt into being included in community stats? i'll keep your run data and include it in the community stats page
-      downloadButton(ns('download_data'),'Download All Run Data As CSV'),
+      downloadButton(ns('download_data'),'Download All Run Data As CSV',icon = icon('download')),
       width = 2
     ),
       mainPanel(

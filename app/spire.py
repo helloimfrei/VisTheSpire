@@ -33,6 +33,7 @@ class VisTheSpire:
         self.temp_dir = self.unzip_to_tempdir()
         self.runs = self.compile_char_data()
         self.filtered_runs = self.runs
+        self.str_runs = self.runs.map(lambda x: ','.join(map(str, x)) if isinstance(x, list) else x)
 
     def filter_master_runset(self,changes:dict) -> pd.DataFrame:
         """

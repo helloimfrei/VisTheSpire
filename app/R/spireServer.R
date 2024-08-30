@@ -6,7 +6,15 @@ spireServer <- function(id){
       rv$vts <- VisTheSpire(input$zip_upload$datapath)
       rv$deaths <- rv$vts$death_freq()
     })
-
+#Download Data
+    output$download_data <- downloadHandler(
+      filename = function() {
+        paste0('runs-',Sys.Date(),'.csv')
+      },
+      content = function(file) {
+        write.csv(rv$vts$str_runs, file)
+      }
+    )
 
 #Summary Stats
     output$run_stats_silent <- renderReactable({

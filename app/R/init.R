@@ -12,9 +12,9 @@ library(reticulate)
 library(reactable)
 library(bslib)
 
-
+#
 #use_condaenv('spire')
-py_install(c('pandas'))
+#py_install(c('pandas'))
 
 source_python('spire.py')
 
