@@ -1,7 +1,9 @@
 # VisTheSpire
 Visualize run data from Slay The Spire!
 
-Very much in progress, with barebones functionality currently: [Give it a try here!](https://helloimfrei.shinyapps.io/VisTheSpire/)
+[Give it a try here!](https://helloimfrei.shinyapps.io/VisTheSpire/)
+
+Very much in progress, with new features still being added.
 
 Upload a zipped 'runs' folder of your save data, and the app handles the rest. 
 
